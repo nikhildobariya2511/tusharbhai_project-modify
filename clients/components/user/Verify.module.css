@@ -1,0 +1,153 @@
+/* styles/Verify.module.css */
+
+/* Outer page wrapper that matches the background and spacing */
+.pageBackground {
+  /* padding-top: 2rem; pt-5 equivalent */
+  display: flex;
+  justify-content: center;
+  background-color: white;
+}
+
+/* central container constrained to max-width 500px and centered */
+/* .container {
+  width: 95%;
+  max-width: 500px;
+  margin: 0 auto;
+} */
+
+/* H1 styling similar to your markup (image + text) */
+.title {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  max-width: 500px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* logo image */
+.logo {
+  height: 40px;
+  vertical-align: text-bottom;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+/* white card rows with padding and border-radius */
+.card {
+  background: #ffffff;
+  margin-top: 1.5rem;
+  /* padding: 0.5rem 0.75rem; */
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* keep flat like original */
+}
+
+/* inner container where we have content */
+.cardInner {
+  padding: 0.5rem 0.25rem 1rem 0.25rem;
+}
+
+/* section title */
+.sectionTitle {
+  font-size: 24px;
+  margin: 0.5rem 0 0.75rem 0;
+  font-weight: 500;
+}
+
+/* form group container (flex like your .d-flex) */
+.formGroup {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 10px;
+  text-align: left;
+  width: 100%;
+  margin: 0 auto;
+  background-color: white;
+}
+
+/* input styling: matches width 75% and height 35px */
+.input {
+  /* width: 75%; */
+  /* height: 35px; */
+  padding: 6px 10px;
+  background-color: #fff;
+  border: 1px solid #d0d5dd;
+  border-radius: 0px;
+  font-weight: 490;
+  /* word-spacing: 3px; */
+  /* line-height: 24px !important; */
+  font-size: 16px;
+  outline: none;
+}
+
+/* button similar visual (min-width:80px as original) */
+/* .btn {
+  min-width: 80px;
+  padding: 8px 12px;
+  height: 36px;
+  margin-left: 8px !important;
+  margin-right: 8px !important;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  background-color: #465b5d;
+  color: white;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background-color 240ms ease-in-out, color 240ms ease-in-out,
+    border-color 240ms ease-in-out, transform 200ms ease-in-out,
+    box-shadow 200ms ease-in-out;
+  will-change: background-color, color, transform, box-shadow;
+} */
+
+/* make sure the button has subtle hover */
+
+/* Hover state — no transition here (already on base) */
+/* .btn:hover {
+  background-color: #fff;
+  color: #465b5d;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+  border-color: #465b5d;
+  font-weight: 400;
+} */
+
+/* QR reader placeholder box — borderless per original but you can add border if desired */
+.reader {
+  width: 100%;
+  height: 220px; /* placeholder height for camera area / QR reader */
+  background: transparent;
+  border-radius: 6px;
+  display: block;
+}
+
+/* small responsive behavior: on narrow screens stack input + button */
+@media (max-width: 520px) {
+  .formGroup {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .input {
+    width: 100%;
+  }
+  /* 
+  .btn {
+    width: 100%;
+    min-width: auto;
+  } */
+
+  .title {
+    text-align: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}

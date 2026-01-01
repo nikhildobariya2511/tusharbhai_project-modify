@@ -1,0 +1,339 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* Remove only top:0 while keeping others intact */
+.inset-0 {
+  top: auto !important; /* disables top:0 */
+}
+
+/* hide any close button inside our sheet content (works even if sheet uses portal) */
+.my-sheet-content button[aria-label="Close"],
+.my-sheet-content .absolute.top-4.right-4 {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+::selection {
+  background-color: #75a2b0;
+  color: white;
+}
+
+/* For Firefox compatibility */
+::-moz-selection {
+  background-color: #75a2b0;
+  color: white;
+}
+
+.mb-30 {
+  margin-bottom: 0;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* styles/globals.css */
+
+/* Use the exact @font-face you provided */
+/* @font-face {
+  font-family: "Hanken Grotesk";
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/hankengrotesk/v12/ieVo2YZDLWuGJpnzaiwFXS9tYtpY_d6T_POl0fRJeyUyovBJ.ttf")
+    format("truetype");
+} */
+
+/* Normal (non-italic) fallback usage as well — you can add other weights if you want */
+/* @font-face {
+  font-family: "Hanken Grotesk";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Hanken Grotesk"), local("HankenGrotesk"),
+    url("https://fonts.gstatic.com/s/hankengrotesk/v12/4iCs6KVjbNBYlgoKc0k.woff2")
+      format("woff2");
+} */
+
+@font-face {
+  font-family: "Hanken Grotesk";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/hankengrotesk/v12/ieVq2YZDLWuGJpnzaiwFXS9tYvBRzyFLlZg_f_Ncs2Za4Q.ttf)
+    format("truetype");
+}
+/* Reset-ish (kept small) */
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#__next {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* background: #f9fafb; container background as in original */
+  /* color: #111827; */
+  line-height: 1.4;
+}
+
+/* small visually-hidden helper for accessibility */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.show-up-to-lg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* hide it once viewport is > 768px */
+@media (min-width: 1024px) {
+  .show-up-to-lg {
+    display: none !important;
+  }
+}
+
+/* -----Start html5-qrcode QR Code CSS------- */
+
+/* 1) Remove entire border from the html5-qrcode container and its immediate wrapper */
+.w-full.bg-white.relative.p-0.border.border-silver,
+#html5qr-reader {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* also override inline border on the reader itself (inline style: border: 1px solid silver;) */
+#html5qr-reader {
+  border: none !important;
+}
+
+/* 2) & 3) Center the scan-region and the embedded SVG/IMG inside it */
+#html5qr-reader__scan_region {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100px;
+  text-align: center; /* keep for fallback */
+  padding: 0;
+}
+
+/* make any image / svg inside the scan region centered and responsive */
+#html5qr-reader__scan_region img,
+#html5qr-reader__scan_region svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+/* if an inline width attribute exists (e.g. width="64"), allow it but keep centered */
+#html5qr-reader__scan_region img[width] {
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+}
+
+/* Base styles for both buttons (stronger selector to override library defaults) */
+#html5-qrcode-button-camera-permission.html5-qrcode-element,
+#html5-qrcode-button-file-selection.html5-qrcode-element {
+  background-color: #f0f0f0 !important; /* light background (change hex if you want) */
+  border: 2.26078px outset #000 !important; /* subtle border */
+  /* font-weight: 500 !important; */
+  padding: 0.5rem 0.9rem !important; /* comfortable clickable area */
+  border-radius: 0 !important; /* rounded corners */
+  /* font-weight: 600 !important; */
+  /* font-size: 0.95rem !important; */
+  cursor: pointer !important;
+  display: inline-block !important;
+  line-height: 24px !important;
+  box-shadow: none !important;
+  padding: 1px 6px !important;
+  /* transition: transform 0.08s ease, background-color 0.12s ease,
+    box-shadow 0.12s ease; */
+}
+
+/* Hover / active */
+/* #html5-qrcode-button-camera-permission.html5-qrcode-element:hover,
+#html5-qrcode-button-file-selection.html5-qrcode-element:hover {
+  background-color: #f0f0f0 !important;
+  transform: translateY(-1px) !important;
+} */
+
+/* Active (press) */
+/* #html5-qrcode-button-camera-permission.html5-qrcode-element:active,
+#html5-qrcode-button-file-selection.html5-qrcode-element:active {
+  transform: translateY(0) !important;
+} */
+
+/* Focus visible for keyboard users */
+/* #html5-qrcode-button-camera-permission.html5-qrcode-element:focus,
+#html5-qrcode-button-file-selection.html5-qrcode-element:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18) !important;
+  border-color: rgba(59, 130, 246, 0.9) !important;
+} */
+
+/* -----End html5-qr code QR Code CSS------- */
+
+.flag-after--cn::before {
+  content: "";
+  display: inline-block;
+  width: 27px; /* 20px */
+  height: 20px; /* 14px */
+  vertical-align: middle;
+  margin-right: 10px;
+  background-image: url("/cn.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 0px;
+  background-size: auto 20px !important;
+  overflow: hidden;
+}
+.flag-after--en::before {
+  content: "";
+  display: inline-block;
+  width: 27px; /* 20px */
+  height: 20px; /* 14px */
+  vertical-align: middle;
+  margin-right: 10px;
+  background-image: url("/us.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0px;
+  background-size: auto 20px !important;
+  overflow: hidden;
+}
