@@ -9,7 +9,7 @@ alembic init alembic
 alembic revision --autogenerate -m "initial"
 
 run cammand:
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+cd c	
 
 bcrypt error get time use:
 pip uninstall bcrypt passlib -y

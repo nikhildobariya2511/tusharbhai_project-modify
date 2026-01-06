@@ -43,11 +43,23 @@ def verify_token(token: str):
     except jwt.InvalidTokenError:
         return None
 
+
 def gen_report_no():
-    prefix = f"{str(uuid.uuid4().int)[:2]}"
+    # first 2 digits from UUID
+    prefix = str(uuid.uuid4().int)[:2]
+
     middle = "J"
-    rest = f"{str(uuid.uuid4().int)[:9]}"[:9]
-    return (prefix + middle + rest)[:12]
+
+    # middle random part (keep length so total stays consistent)
+    random_part = str(uuid.uuid4().int)[:5]
+
+    # current year & month (YYMM)
+    now = datetime.now()
+    yy = now.strftime("%y")   # 26
+    mm = now.strftime("%m")   # 01
+
+    # final report number
+    return f"{prefix}{middle}{random_part}{yy}{mm}"
 
 def create_qr(url: str) -> Image.Image:
     qr = qrcode.QRCode(box_size=4, border=2)

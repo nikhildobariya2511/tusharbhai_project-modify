@@ -8,6 +8,7 @@ from database import Base, engine
 from auth.router import router as auth_router
 from reports.router import router as reports_router, public_router
 from pdf.router import router as pdf_router
+from pdf.mini_reports import router as mini_reports_router
 from models import *
 from auto_migrate import run_alembic_migrations
 from dotenv import load_dotenv
@@ -56,6 +57,7 @@ app.include_router(auth_router)
 app.include_router(reports_router)
 app.include_router(public_router)
 app.include_router(pdf_router)
+app.include_router(mini_reports_router)
 
 @app.get("/")
 def home():

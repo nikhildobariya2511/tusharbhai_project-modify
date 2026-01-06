@@ -227,6 +227,10 @@ export default function ReportPDF({
             fontSize: Math.max(FIXED_FONTS.value - 1, 6),
             fontFamily: "IBMPlexSans",
         },
+        carat: {
+            fontFamily: "AVGARDD_2",
+            fontWeight: "bold"
+        },
         mainComment: {
             fontSize: FIXED_FONTS.value,
             letterSpacing: -0.2,
@@ -460,7 +464,7 @@ export default function ReportPDF({
                         </View>
 
                         <View >
-                            <Text style={[styles.CanvaFont, styles.jewelryTitle]}>
+                            <Text style={[styles.CanvaFont, styles.jewelryTitle,{marginRight:-10}]}>
                                 JEWELRY REPORT
                             </Text>
                         </View>
@@ -514,7 +518,7 @@ export default function ReportPDF({
                                 ]}>
                                     {"\u00A0"}
                                     <Text style={[styles.colon]}>: </Text>
-                                    <Text>{data.tot_est_weight} Carat</Text>
+                                    <Text style={[styles.carat]}>{data.tot_est_weight} Carat</Text>
                                 </Text>
                             </View>
 

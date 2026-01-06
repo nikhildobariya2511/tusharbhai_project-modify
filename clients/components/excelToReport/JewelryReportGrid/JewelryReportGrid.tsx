@@ -33,7 +33,12 @@ const iTCAvantGardeCondensedNormal = "/fonts/ITC-CE-Book.otf";
 const ITCAvantGardeStdBold = "/fonts/ITCAvantGardeStd-Bold.ttf";
 const CanvaSansRegular = "/fonts/CanvaSans-Regular.otf";
 const ArimoBold = "/fonts/Arimo-Bold.ttf";
+const AVGARDD_2 = "/fonts/AVGARDD_2.ttf";
 
+Font.register({
+    family: "AVGARDD_2",
+    fonts: [{ src: AVGARDD_2, fontWeight: "bold" }],
+});
 Font.register({
     family: "IBMPlexSans",
     fonts: [{ src: iBMPlexSansBold, fontWeight: "semibold" }],
