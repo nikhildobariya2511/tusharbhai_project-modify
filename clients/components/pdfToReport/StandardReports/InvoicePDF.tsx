@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // InvoicePDF.tsx
-import { Document, Page, View, StyleSheet, Text } from "@react-pdf/renderer"
+import { Document, Page, View, StyleSheet, Text,Image } from "@react-pdf/renderer"
 import InvoicePDFSection1 from "./InvoicePDFSection1"
 import InvoicePDFSection2 from "./InvoicePDFSection2"
 import InvoicePDFSection4 from "./InvoicePDFSection4"
-import { baseFont } from "./PDFStyles"
 import InvoicePDFSection5 from "./InvoicePDFSection5"
 import { Font } from "@react-pdf/renderer"
 import InvoicePDFSection3 from "./InvoicePDFSection3"
+import { baseFont } from "../PDFStyles"
 const dinProRegular = "/fonts/DINPro-Light_13935.ttf"
 const dinProBold = "/fonts/DINPro-Medium_13936.ttf"
 Font.register({

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // InvoicePDFSection1.tsx
 import { View, Text } from "@react-pdf/renderer";
-import { baseFont, commonStyles } from "./PDFStyles";
+import { baseFont, commonStyles } from "../PDFStyles";
 
 
 export default function InvoicePDFSection1({ data }: any) {

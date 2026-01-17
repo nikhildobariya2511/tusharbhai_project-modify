@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/alt-text */
 import { View, Text, Image, StyleSheet } from "@react-pdf/renderer";
-import { baseFont, commonStyles } from "./PDFStyles";
-import { BASE_URL } from "../../lib/axiosClient";
+import { baseFont, commonStyles } from "../PDFStyles";
+import { BASE_URL } from "../../../lib/axiosClient";
 
 const getImageFilename = (symbol: string) => {
     const cleaned = symbol.trim().replace(/\s+/g, "_").replace("*", "");

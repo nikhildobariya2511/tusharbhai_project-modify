@@ -1,4 +1,4 @@
-import type { ReportData } from "@/components/excelToReport/ReportPDF";
+import { ReportData } from "../../../components/excelToReport/ReportPDF";
 import JewelryReportAutoDownloadLauncher from "./JewelryReportAutoDownloadLauncher";
 import { Suspense } from "react";
 const dummyData = [

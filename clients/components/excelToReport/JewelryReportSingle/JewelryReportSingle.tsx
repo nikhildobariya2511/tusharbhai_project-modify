@@ -11,7 +11,7 @@ import {
     pdf,
 } from "@react-pdf/renderer";
 import ReportPDF, { ReportData } from "../ReportPDF";
-import { dummyData } from "@/lib/env";
+// import { dummyData } from "@/lib/env";
 
 type Props = {
     data: ReportData;

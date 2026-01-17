@@ -7,8 +7,8 @@ import {
     Image,
     StyleSheet,
 } from '@react-pdf/renderer';
-import { baseFont, commonStyles } from './PDFStyles';
-import { BASE_URL } from '../../lib/axiosClient';
+import { baseFont, commonStyles } from '../PDFStyles';
+import { BASE_URL } from '../../../lib/axiosClient';
 const styles = StyleSheet.create({
     diagramImage: {
         width: 180,
@@ -70,7 +70,8 @@ export default function InvoicePDFSection2({ data }: any) {
     const proportionsImage = data.PROPORTIONS;
 
     const jobNumber = Math.floor(10000000 + Math.random() * 90000000); // Ensures 8-digit number
-    const orCode = Math.floor(Math.random() * 30) + 1;
+    const rawCode = Math.floor(Math.random() * 30) + 1;
+    const orCode = rawCode.toString().padStart(2, "0");
 
     // const fieldValue = additional.comments || '';
     // const firstLineLimit = 44; // Adjust this number as per your PDF font size and width

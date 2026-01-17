@@ -31,12 +31,15 @@ app = FastAPI(title="IGI FastAPI Backend")
 # -------------------------
 OUTPUT_DIR = "output"
 UPLOAD_DIR = "uploads"
+MINI_REPORTS_DIR = "mini-reports-output"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs(MINI_REPORTS_DIR, exist_ok=True)
 
 # Mount public folders
 app.mount("/files", StaticFiles(directory=OUTPUT_DIR), name="files")
+app.mount("/mini-reports", StaticFiles(directory=MINI_REPORTS_DIR), name="mini-reports")
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 # -------------------------

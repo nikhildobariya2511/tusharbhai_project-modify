@@ -1,16 +1,17 @@
 "use client"
 import type React from "react"
 import { useRef, useState } from "react"
-import { Button } from "../../components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card"
-import { Input } from "../../components/ui/input"
-import { Label } from "../../components/ui/label"
+import { Button } from "../ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
+import { Input } from "../ui/input"
+import { Label } from "../ui/label"
 import { Upload, FileText, Check } from "lucide-react"
 import { toast } from "sonner"
 import { pdf } from "@react-pdf/renderer"
-import InvoicePDF from "./InvoicePDF"
+import InvoicePDF from "./StandardReports/InvoicePDF"
 import { useUploadPdf } from "../../hooks/useReports"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import MiniReportsSection from "./MiniReports/MiniReportsSection"
 
 interface ProportionData {
   TBL: string
@@ -27,7 +28,6 @@ interface ProportionData {
   culet: string
   depth: string
   table: string
-  // clarityCharacteristics: string;
   pdfname: string
   size: "small" | "large"
 }
@@ -39,6 +39,7 @@ const ReportProcessor = () => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [pdfSize, setPdfSize] = useState<"17x11" | "14x8.5">("17x11")
+  const [activeTab, setActiveTab] = useState<"standard" | "mini">("standard")
 
   const [proportions, setProportions] = useState<ProportionData>({
     TBL: "",
@@ -63,15 +64,11 @@ const ReportProcessor = () => {
     const file = event.target.files?.[0]
     if (file) {
       if (file.type !== "application/pdf") {
-        toast.error("Invalid file type", {
-          // description: "Please upload a PDF file only."
-        })
+        toast.error("Invalid file type", {})
         return
       }
       setUploadedFile(file)
-      toast.success("File uploaded successfully", {
-        // description: "Your PDF is ready for processing"
-      })
+      toast.success("File uploaded successfully", {})
     }
   }
 
@@ -84,9 +81,7 @@ const ReportProcessor = () => {
 
   const validateForm = () => {
     if (!uploadedFile) {
-      toast.warning("Please upload a PDF file", {
-        // description: "Please upload a PDF file before submitting"
-      })
+      toast.warning("Please upload a PDF file", {})
       return false
     }
     return true
@@ -186,113 +181,142 @@ const ReportProcessor = () => {
           <p className="text-muted-foreground">Upload your PDF and configure proportion data</p>
         </div>
 
-        <Card className="shadow-elegant border-0">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="w-5 h-5 text-primary" />
-              Report Configuration
-            </CardTitle>
-            <CardDescription>Configure your report type and upload the required PDF document</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="pdf-size" className="text-sm font-medium">
-                PDF Size
-              </Label>
-              <Select value={pdfSize} onValueChange={(value: "17x11" | "14x8.5") => setPdfSize(value)}>
-                <SelectTrigger id="pdf-size" className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="17x11">17 × 11 inches (1224 × 792 points)</SelectItem>
-                  <SelectItem value="14x8.5">14 × 8.5 inches (1008 × 612 points)</SelectItem>
-                </SelectContent>
-              </Select>
-              <p className="text-xs text-muted-foreground">Select the output size for your PDF report</p>
-            </div>
+        <div className="flex gap-2 border-b border-border">
+          <button
+            onClick={() => setActiveTab("standard")}
+            className={`px-4 py-2 font-medium transition-colors ${
+              activeTab === "standard"
+                ? "border-b-2 border-primary text-primary"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            Standard Reports
+          </button>
+          <button
+            onClick={() => setActiveTab("mini")}
+            className={`px-4 py-2 font-medium transition-colors ${
+              activeTab === "mini"
+                ? "border-b-2 border-primary text-primary"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            Mini Reports
+          </button>
+        </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="pdf-upload" className="text-sm font-medium">
-                PDF Document
-              </Label>
-              <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:bg-accent/50 transition-colors">
-                <input
-                  id="pdf-upload"
-                  type="file"
-                  accept=".pdf"
-                  ref={fileInputRef}
-                  onChange={handleFileUpload}
-                  className="hidden"
-                />
-                <Label htmlFor="pdf-upload" className="cursor-pointer flex flex-col items-center gap-2">
-                  <Upload className="w-8 h-8 text-muted-foreground" />
-                  <span className="text-sm font-medium">
-                    {uploadedFile ? "Change PDF file" : "Click to upload PDF"}
-                  </span>
-                  <span className="text-xs text-muted-foreground">PDF files only, max 10MB</span>
-                </Label>
-              </div>
-              {uploadedFile && (
-                <div className="flex items-center gap-2 p-3 bg-success/10 border border-success/20 rounded-lg">
-                  <Check className="w-4 h-4 text-success" />
-                  <span className="text-sm text-success-foreground">{uploadedFile.name}</span>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-elegant border-0">
-          <CardHeader>
-            <CardTitle>Proportion Data</CardTitle>
-            <CardDescription>Enter the proportion values for each measurement category</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {Object.entries(proportions).map(([key, value]) => {
-                  const isNumericField = ["TD", "TBL", "CA", "PA", "ST", "LH", "depth", "table"].includes(key)
-
-                  return (
-                    <div key={key} className="space-y-2">
-                      <Label htmlFor={key} className="text-sm font-medium">
-                        {key}
-                      </Label>
-                      <Input
-                        id={key}
-                        type={isNumericField ? "number" : "text"}
-                        step={isNumericField ? "0.01" : undefined}
-                        value={value}
-                        onChange={(e) => handleProportionChange(key as keyof ProportionData, e.target.value)}
-                        placeholder={`Enter ${key} value`}
-                        className="transition-all focus:shadow-soft"
-                      />
-                    </div>
-                  )
-                })}
-
+        {activeTab === "standard" && (
+          <>
+            <Card className="shadow-elegant border-0">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-primary" />
+                  Report Configuration
+                </CardTitle>
+                <CardDescription>Configure your report type and upload the required PDF document</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="size" className="text-sm font-medium">
-                    Size
+                  <Label htmlFor="pdf-size" className="text-sm font-medium">
+                    PDF Size
                   </Label>
-                  <Select onValueChange={(val) => handleProportionChange("size", val)} value={proportions.size}>
-                    <SelectTrigger id="size" className="w-full">
-                      <SelectValue placeholder="Select size" />
+                  <Select value={pdfSize} onValueChange={(value: "17x11" | "14x8.5") => setPdfSize(value)}>
+                    <SelectTrigger id="pdf-size" className="w-full">
+                      <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="small">Small</SelectItem>
-                      <SelectItem value="large">Large</SelectItem>
+                      <SelectItem value="17x11">17 × 11 inches (1224 × 792 points)</SelectItem>
+                      <SelectItem value="14x8.5">14 × 8.5 inches (1008 × 612 points)</SelectItem>
                     </SelectContent>
                   </Select>
+                  <p className="text-xs text-muted-foreground">Select the output size for your PDF report</p>
                 </div>
-              </div>
 
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Processing..." : "Submit Report"}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+                <div className="space-y-2">
+                  <Label htmlFor="pdf-upload" className="text-sm font-medium">
+                    PDF Document
+                  </Label>
+                  <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:bg-accent/50 transition-colors">
+                    <input
+                      id="pdf-upload"
+                      type="file"
+                      accept=".pdf"
+                      ref={fileInputRef}
+                      onChange={handleFileUpload}
+                      className="hidden"
+                    />
+                    <Label htmlFor="pdf-upload" className="cursor-pointer flex flex-col items-center gap-2">
+                      <Upload className="w-8 h-8 text-muted-foreground" />
+                      <span className="text-sm font-medium">
+                        {uploadedFile ? "Change PDF file" : "Click to upload PDF"}
+                      </span>
+                      <span className="text-xs text-muted-foreground">PDF files only, max 10MB</span>
+                    </Label>
+                  </div>
+                  {uploadedFile && (
+                    <div className="flex items-center gap-2 p-3 bg-success/10 border border-success/20 rounded-lg">
+                      <Check className="w-4 h-4 text-success" />
+                      <span className="text-sm text-success-foreground">{uploadedFile.name}</span>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-elegant border-0">
+              <CardHeader>
+                <CardTitle>Proportion Data</CardTitle>
+                <CardDescription>Enter the proportion values for each measurement category</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {Object.entries(proportions).map(([key, value]) => {
+                      const isNumericField = ["TD", "TBL", "CA", "PA", "ST", "LH", "depth", "table"].includes(key)
+
+                      return (
+                        <div key={key} className="space-y-2">
+                          <Label htmlFor={key} className="text-sm font-medium">
+                            {key}
+                          </Label>
+                          <Input
+                            id={key}
+                            type={isNumericField ? "number" : "text"}
+                            step={isNumericField ? "0.01" : undefined}
+                            value={value}
+                            onChange={(e) => handleProportionChange(key as keyof ProportionData, e.target.value)}
+                            placeholder={`Enter ${key} value`}
+                            className="transition-all focus:shadow-soft"
+                          />
+                        </div>
+                      )
+                    })}
+
+                    <div className="space-y-2">
+                      <Label htmlFor="size" className="text-sm font-medium">
+                        Size
+                      </Label>
+                      <Select onValueChange={(val) => handleProportionChange("size", val)} value={proportions.size}>
+                        <SelectTrigger id="size" className="w-full">
+                          <SelectValue placeholder="Select size" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="small">Small</SelectItem>
+                          <SelectItem value="large">Large</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? "Processing..." : "Submit Report"}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </>
+        )}
+
+        {activeTab === "mini" && <MiniReportsSection />}
       </div>
     </div>
   )

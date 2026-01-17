@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { BASE_URL } from "../../lib/axiosClient";
+import { BASE_URL } from "../../../lib/axiosClient";
 import { View, Text, Image, StyleSheet } from "@react-pdf/renderer";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
