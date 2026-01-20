@@ -57,42 +57,33 @@ const styles = StyleSheet.create({
     width: "70%",
     height: "70%",
     objectFit: "contain",
+    bottom:2
   },
   barcodeContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 160,
-    left: 22
+    marginTop: 165,
+    left: 19
   },
   barcodeImage: {
     width: 90,
-    height: 27,
+    height: 23,
     objectFit: "contain",
   },
   barcodeNumber: {
-    marginLeft: 3,
-    marginTop: '1px',
-    fontSize: "7.70",
+    marginLeft: 5.5,
+    bottom: 1,
+    fontSize: "7",
     fontFamily: "OCR",
     color: "#000",
 
   },
-  verticalDotsContainer: {
-    alignItems: "center",
-    marginTop: 4,
-  },
-  verticalDotsText: {
-    fontFamily: "Helvetica",
-    fontSize: 4,
-    color: "#333",
-    lineHeight: 1,
-  },
   diaTextPosition: {
-    right: 17.5,
+    right: 16,
     position: "absolute" as const,
     width: 30, height: 20,
-    top: 256, 
+    top: 258, 
     transform: "rotate(-90deg)"
   },
 })

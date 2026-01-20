@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     width: PAGE_WIDTH,
     height: PAGE_HEIGHT,
     zIndex: -1,
+    backgroundColor:"red"
   },
 })
 

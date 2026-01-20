@@ -34,35 +34,38 @@ function MiniRow({
   label,
   value,
   limit = 26,
+  style,
 }: {
   label: string
   value?: string
   limit?: number
+  style?: any
 }) {
   if (!value) return null
 
   const { firstLine, remaining } = splitByWords(value, limit)
+  const hideSeparator = label === "Clarity Char:"
+
 
   return (
-    <View>
-      {/* first line */}
+    <View style={style}>
       <View style={{ flexDirection: "row", width: "100%" }}>
         <Text style={styles.label}>{label}</Text>
-        <View style={styles.separator} />
+        {!hideSeparator && <View style={styles.separator} />}
         <Text style={styles.value}>{firstLine}</Text>
       </View>
 
-      {/* wrapped continuation */}
       {remaining && (
         <View style={{ flexDirection: "row", width: "100%" }}>
           <Text style={styles.label} />
-          <View style={styles.separatorInvisible} />
+          {!hideSeparator && <View style={styles.separatorInvisible} />}
           <Text style={styles.value}>{remaining}</Text>
         </View>
       )}
     </View>
   )
 }
+
 
 export default function InvoicePDFSectionMini4({ report }: { report: any }) {
   const gia = report.GIANATURALDIAMONDGRADINGREPORT || {}
@@ -74,11 +77,15 @@ export default function InvoicePDFSectionMini4({ report }: { report: any }) {
   const rawCode = Math.floor(Math.random() * 30) + 1;
   const orCode = rawCode.toString().padStart(2, "0");
 
+
+
   return (
     <View style={styles.container}>
       {/* Address */}
-      <View style={{ top: 15 }}>
-        {report.address && (
+      <View style={{ top: 17 }}>
+
+
+        {/* {report.address && (
           <Text
             style={{
               fontFamily: baseFont,
@@ -89,8 +96,8 @@ export default function InvoicePDFSectionMini4({ report }: { report: any }) {
             }}
           >
             {report.address}
-          </Text>
-        )}
+          </Text> */}
+        {/* )} */}
         {(report.city || report.state) && (
           <Text
             style={{
@@ -98,6 +105,7 @@ export default function InvoicePDFSectionMini4({ report }: { report: any }) {
               fontWeight: "normal",
               fontSize: 6,
               color: "#333",
+              letterSpacing: "0.30",
               marginBottom: -1,
             }}
           >
@@ -110,14 +118,17 @@ export default function InvoicePDFSectionMini4({ report }: { report: any }) {
               fontFamily: baseFont,
               fontWeight: "normal",
               fontSize: 6,
+              letterSpacing: "0.30",
               color: "#333",
-              marginBottom: -1,
+              bottom: -2,
             }}
           >
             {report.country}
           </Text>
         )}
       </View>
+
+
       {/* Barcode 12 */}
       {images.Barcode12?.image && (
         <View style={styles.barcode12Wrapper}>
@@ -131,8 +142,9 @@ export default function InvoicePDFSectionMini4({ report }: { report: any }) {
         style={{
           flexDirection: "row",
           alignItems: "baseline",
-          marginTop: "-2px",
           width: "100%",
+          bottom: 3,
+          left: 1,
         }}
       >
         <Text style={styles.fieldLabel}>JOB:</Text>
@@ -140,62 +152,55 @@ export default function InvoicePDFSectionMini4({ report }: { report: any }) {
         <Text style={styles.fieldLabel}>{orCode}</Text>
       </View>
 
+
       {/* Report Date */}
+      {report.ReportDate && (
+        <Text
+          style={{
+            fontFamily: baseFont,
+            fontSize: 6.5,
+            color: "#333",
+            letterSpacing: -0.20
+          }}
+        >
+          {report.ReportDate}
+        </Text>
+      )}
+
       <MiniRow label="GIA Report No" value={gia.GIAReportNumber} />
       <MiniRow label="Shape" value={gia.ShapeandCuttingStyle} limit={22} />
       <MiniRow label="Meas" value={gia.Measurements} />
-      <MiniRow label="Carat Weight" value={grading.CaratWeight} />
-      <MiniRow label="Color" value={grading.ColorGrade} />
-      <MiniRow label="Clarity" value={grading.ClarityGrade} />
+      <MiniRow label="Carat Weight" value={grading.CaratWeight} style={{ top: 1 }} />
+      <MiniRow label="Color" value={grading.ColorGrade} style={{ top: 1 }} />
+      <MiniRow label="Clarity" value={grading.ClarityGrade} style={{ top: 1 }} />
 
-      {grading.CutGrade && <MiniRow label="Cut" value={grading.CutGrade} />}
+      {grading.CutGrade && <MiniRow label="Cut" value={grading.CutGrade} style={{ top: 1.5 }} />}
 
       {/* Proportions */}
       {images.Proportions && (
         <>
-          <Text style={styles.label}>Proportion:</Text>
+          <Text style={[styles.label, { top: 2 }]}>Proportion:</Text>
           <Image src={`${BASE_URL}${images.Proportions}`} style={styles.diagram} />
         </>
       )}
 
       {/* Additional Info */}
-      <MiniRow label="Polish" value={additional.Polish} />
-      <MiniRow label="Symmetry" value={additional.Symmetry} />
-      <MiniRow label="Fluorescence" value={additional.Fluorescence} />
+      <MiniRow label="Polish" value={additional.Polish} style={{ bottom: 6 }} />
+      <MiniRow label="Symmetry" value={additional.Symmetry} style={{ bottom: 6 }} />
+      <MiniRow label="Fluorescence" value={additional.Fluorescence} style={{ bottom: 6 }} />
       <MiniRow
-        label="Clarity char"
+        label="Clarity Char:"
         value={additional.ClarityCharacteristics}
         limit={20}
+        style={{ bottom: 6 }}
       />
 
       {/* Inscription */}
-      <View style={[commonStyles.fieldRow, { marginBottom: 6.5 }]}>
-        <Text style={[commonStyles.fieldLabel, { marginRight: -1 }]}>
-          Inscription
-          <Text
-            style={{
-              fontFamily: "Helvetica-Light",
-              fontWeight: "light",
-              fontSize: 8,
-              color: "#333",
-            }}
-          >
-            (
-          </Text>
-          s
-          <Text
-            style={{
-              fontFamily: "Helvetica-Light",
-              fontWeight: "light",
-              fontSize: 8,
-              color: "#333",
-            }}
-          >
-            )
-          </Text>
-          : {"\u00A0"}
+      <View style={{ flexDirection: "row" ,bottom:5,letterSpacing:0.20}}>
+        <Text style={styles.label}>
+          Ins:
         </Text>
-        <Text style={commonStyles.fieldLabel}>GIA {gia.GIAReportNumber}</Text>
+        <Text style={styles.label}>GIA {gia.GIAReportNumber}</Text>
       </View>
 
       {/* Barcode 10 */}
@@ -226,13 +231,13 @@ const styles = StyleSheet.create({
   },
 
   barcode12Wrapper: {
-    marginVertical: 2,
     alignItems: "center",
   },
 
   barcode12Image: {
-    width: 96,
-    height: 30,
+    width: 100,
+    height: 33.5,
+    right: 2,
     top: 8,
     objectFit: "contain",
   },
@@ -240,8 +245,9 @@ const styles = StyleSheet.create({
   barcodeNumber: {
     fontFamily: baseFont,
     fontSize: 7,
-    marginTop: -1,
-    right: 26,
+    right: 25,
+    bottom: 2.5,
+    letterSpacing: 0.10
   },
 
   fieldLabel: {
@@ -276,7 +282,7 @@ const styles = StyleSheet.create({
   separator: {
     flexGrow: 1,
     borderBottom: "1px dotted #4B4B4D",
-    top:-1,
+    top: -1,
     marginHorizontal: 1,
   },
 
@@ -290,16 +296,18 @@ const styles = StyleSheet.create({
     height: 64,
     marginVertical: 1.5,
     objectFit: "contain",
+    bottom: 1,
   },
 
   barcode10Row: {
-    marginTop: 10,
+    marginTop: 22,
   },
 
   barcode10Image: {
     width: 90,
     height: 10,
     objectFit: "contain",
+
   },
 
   barcode10Text: {

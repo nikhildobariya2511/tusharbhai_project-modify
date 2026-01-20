@@ -18,22 +18,23 @@ const styles = StyleSheet.create({
     width: "100%",
     textAlign: "center",
     paddingTop: "36px",
-    left: 37,
+    left: 39,
   },
 
   titleText: {
     fontFamily: baseFont,
-    fontSize: 12,
+    fontSize: 11,
+    letterSpacing: 0.80,
     color: "#000",
   },
 
   section1: {
     position: "absolute",
-    left: 287,
-    width: 205,
-    height: 190,
+    left: 288,
+    width: 208,
+    height: 180,
     top: 83,
-
+    alignContent:"center",
     overflow: "hidden",
   },
 

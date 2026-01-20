@@ -78,8 +78,7 @@ export default function InvoicePDFSectionMini1({ report }: any) {
             fontFamily: baseFont,
             fontSize: 8,
             color: "#333",
-            marginBottom: 4,
-            letterSpacing: "-0.2",
+            marginBottom: 5.5,
           }}
         >
           {report.ReportDate}
@@ -99,16 +98,15 @@ export default function InvoicePDFSectionMini1({ report }: any) {
       <MiniRow label="Carat Weight" value={grading.CaratWeight} />
       <MiniRow label="Color Grade" value={grading.ColorGrade} />
       <MiniRow label="Clarity Grade" value={grading.ClarityGrade} />
+      <MiniRow label="Cut Grade" value={grading.CutGrade} />
 
-      {grading.CutGrade && (
-        <MiniRow label="Cut Grade" value={grading.CutGrade} />
-      )}
-
-      <View style={{ height: grading.CutGrade ? 34 : 45 }} />
+      <View style={{ height: 31 }} />
 
       <MiniRow label="Polish" value={additional.Polish} />
       <MiniRow label="Symmetry" value={additional.Symmetry} />
       <MiniRow label="Fluorescence" value={additional.Fluorescence} />
+
+
       <MiniRow
         label="Clarity Characteristics"
         value={additional.ClarityCharacteristics}

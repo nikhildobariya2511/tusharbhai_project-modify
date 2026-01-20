@@ -76,10 +76,9 @@ def parse_gia_report_from_bytes(pdf_bytes: bytes, filename: str):
     os.makedirs(report_folder, exist_ok=True)
 
     proportions_path = _extract_diamond_image_advanced(doc, report_folder)
-    qr_path = _extract_qr_from_pdf(doc, report_folder)
 
-    if not qr_path:
-        qr_path = _create_and_save_qr_code(report_number, report_folder)
+    # if not qr_path:
+    qr_path = _create_and_save_qr_code(report_number, report_folder)
 
     barcode10_number, barcode10_path = _generate_unique_barcode(
         digits=10, save_path_no_ext=os.path.join(report_folder, "barcode10")
@@ -248,20 +247,3 @@ def remove_white_background_fast(image_path):
     img.save(image_path)
 
 
-def _extract_qr_from_pdf(doc, save_folder):
-    for page in doc:
-        images = page.get_images(full=True)
-        for img in images:
-            xref = img[0]
-            base = doc.extract_image(xref)
-            image_bytes = base["image"]
-
-            img_pil = Image.open(io.BytesIO(image_bytes))
-            w, h = img_pil.size
-
-            # QR codes are usually square + medium size
-            if abs(w - h) < 10 and w >= 150:
-                path = os.path.join(save_folder, "qrcode.png")
-                img_pil.convert("RGB").save(path, "PNG", quality=95)
-                return path
-    return ""

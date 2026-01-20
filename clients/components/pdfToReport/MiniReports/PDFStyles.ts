@@ -13,9 +13,8 @@ export const commonStyles = StyleSheet.create({
   fieldLabel: {
     fontFamily: baseFont,
     fontWeight: "normal",
-    fontSize: 7,
+    fontSize: 7.5,
     color: "#333",
-    letterSpacing: "-0.20",
   },
   // PDFStyles.ts (add these into commonStyles)
   shapeFieldValueContainer: {
@@ -43,10 +42,9 @@ export const commonStyles = StyleSheet.create({
   fieldValue: {
     fontFamily: baseFont,
     fontWeight: "bold",
-    fontSize: 7,
+    fontSize: 7.5,
     color: "#4B4B4D",
     textAlign: "right",
-    letterSpacing: "-0.20",
   },
   headerText: {
     fontFamily: baseFont,
