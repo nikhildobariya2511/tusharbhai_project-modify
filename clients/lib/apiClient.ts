@@ -264,4 +264,28 @@ export const apiClient = {
       throw err
     }
   },
+
+  // GENERIC POST — for batch operations and other endpoints
+  post: async (
+  endpoint: string,
+  data: any,
+  opts?: { token?: string; responseType?: string }
+): Promise<any> => {
+  try {
+    const axiosClient = createAxiosClient({ token: opts?.token })
+
+    const res = await axiosClient.post(endpoint, data, {
+      responseType: opts?.responseType as any,
+      headers: {
+        "Content-Type": "application/json", // ✅ force JSON
+      },
+    })
+
+    return res.data
+  } catch (err: any) {
+    handleAxiosError(err)
+    throw err
+  }
+},
+
 }

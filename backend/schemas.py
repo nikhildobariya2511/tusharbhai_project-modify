@@ -48,3 +48,8 @@ class ReportListItem(BaseModel):
 
     class Config:
         from_attributes = True
+        
+        
+class BatchDeleteRequest(BaseModel):
+    report_no: List[str]
+    

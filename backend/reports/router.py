@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile, File, Form, Depends, HTTPException, Q
 from fastapi.responses import StreamingResponse, FileResponse
 from sqlalchemy.orm import Session
 from models import Report, UploadedPDF
-from schemas import ReportOut, ReportListItem
+from schemas import ReportOut, ReportListItem,BatchDeleteRequest
 from database import get_db
 from utils import gen_report_no, compose_card_image
 from auth.dependencies import get_current_user
@@ -354,7 +354,7 @@ def upload_xlsx(
     # ---------------------------------------------------------
     file_bytes = io.BytesIO(file.file.read())
     wb = load_workbook(file_bytes)
-    sheet = wb["Sheet2"] if "Sheet2" in wb.sheetnames else wb[wb.sheetnames[0]]
+    sheet = wb["sheet1"] if "sheet1" in wb.sheetnames else wb[wb.sheetnames[0]]
 
     df = pd.DataFrame(sheet.values)
     df.columns = [str(c).strip() for c in df.iloc[0]]
@@ -671,3 +671,63 @@ def delete_report(report_no: str, db: Session = Depends(get_db)):
     db.delete(report)
     db.commit()
     return {"msg": f"Report {report_no} deleted"}
+
+
+# ==========================================================
+# Batch Delete Reports
+# ==========================================================
+@router.post("/batch-delete")
+def batch_delete_reports(
+    payload: BatchDeleteRequest,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    report_nos = payload.report_no  # <-- singular key from schema
+
+    deleted_count = 0
+    failed = []
+
+    for report_no in report_nos:
+        try:
+            report = (
+                db.query(Report)
+                .filter(Report.report_no == report_no)
+                .first()
+            )
+
+            if not report:
+                failed.append({"report_no": report_no, "error": "Not found"})
+                continue
+
+            # Delete image file
+            if report.image_filename:
+                img_path = os.path.join(UPLOAD_DIR, report.image_filename)
+                if os.path.exists(img_path):
+                    try:
+                        os.remove(img_path)
+                    except Exception:
+                        pass
+
+            # Delete company logo
+            if report.company_logo:
+                logo_path = os.path.join(UPLOAD_DIR, "logo", report.company_logo)
+                if os.path.exists(logo_path):
+                    try:
+                        os.remove(logo_path)
+                    except Exception:
+                        pass
+
+            db.delete(report)
+            deleted_count += 1
+
+        except Exception as e:
+            failed.append({"report_no": report_no, "error": str(e)})
+
+    db.commit()
+
+    return {
+        "msg": "Batch delete completed",
+        "deleted": deleted_count,
+        "failed": failed,
+        "total": len(report_nos),
+    }
