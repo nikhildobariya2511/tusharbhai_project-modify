@@ -45,8 +45,6 @@ function MiniRow({
 
   const { firstLine, remaining } = splitByWords(value, limit)
   const hideSeparator = label === "Clarity Char:"
-
-
   return (
     <View style={style}>
       <View style={{ flexDirection: "row", width: "100%" }}>
@@ -192,7 +190,7 @@ export default function InvoicePDFSectionMini4({ report }: { report: any }) {
         label="Clarity Char:"
         value={additional.ClarityCharacteristics}
         limit={20}
-        style={{ bottom: 6 }}
+        style={{ bottom: 6 ,fontWeight:"normal"}}
       />
 
       {/* Inscription */}
@@ -281,9 +279,9 @@ const styles = StyleSheet.create({
 
   separator: {
     flexGrow: 1,
-    borderBottom: "1px dotted #4B4B4D",
+    borderBottom: "1px dotted #686869",
     top: -1,
-    marginHorizontal: 1,
+    marginHorizontal: 3,
   },
 
   separatorInvisible: {
@@ -300,7 +298,7 @@ const styles = StyleSheet.create({
   },
 
   barcode10Row: {
-    marginTop: 22,
+    marginTop: 18,
   },
 
   barcode10Image: {

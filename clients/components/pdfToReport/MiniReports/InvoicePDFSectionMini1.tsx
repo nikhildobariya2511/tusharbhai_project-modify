@@ -120,8 +120,8 @@ export default function InvoicePDFSectionMini1({ report }: any) {
           <Text
             style={{
               fontFamily: "Helvetica-Light",
-              fontSize: 8,
-              color: "#444",
+              fontSize: 7,
+              color: "#4B4B4D",
             }}
           >
             (s)

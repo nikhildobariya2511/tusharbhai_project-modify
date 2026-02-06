@@ -35,8 +35,8 @@ export const commonStyles = StyleSheet.create({
   },
   separator: {
     flexGrow: 1,
-    borderBottom: "1px dotted #4B4B4D",
-    marginHorizontal: "1px",
+    borderBottom: "1px dotted #686869",
+    marginHorizontal: "3px",
     height: 10,
   },
   fieldValue: {

@@ -11,6 +11,7 @@ export default function InvoicePDFSectionMini3({ report }: { report: any }) {
       <View style={styles.qrContainer}>{Qrcode && <Image src={`${BASE_URL}${Qrcode}`} style={styles.qrImage} />}</View>
       <text>{report.Images?.QRcodenumber}</text>
     </View>
+
   )
 }
 
@@ -23,8 +24,8 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   qrContainer: {
-    width: 55,
-    height: 55,
+    width: 60,
+    height: 60,
     alignItems: "center",
     justifyContent: "center",
   },

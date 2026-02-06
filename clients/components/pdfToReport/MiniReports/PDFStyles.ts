@@ -34,11 +34,12 @@ export const commonStyles = StyleSheet.create({
   },
   separator: {
     flexGrow: 1,
-    borderBottom: "1px dotted #4B4B4D",
-    marginHorizontal: "1px",
+    borderBottom: "1px dotted #686869",
+    marginHorizontal: "3px",
     top:-2,
     height: 10,
   },
+  
   fieldValue: {
     fontFamily: baseFont,
     fontWeight: "bold",
