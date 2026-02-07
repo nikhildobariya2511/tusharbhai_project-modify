@@ -165,14 +165,32 @@ export default function ProductTable() {
         setSelectedRows([]);
     }, [refetch]);
 
+    useEffect(() => {
+        if (!gridApi.current || selectedRows.length === 0) return;
+
+        gridApi.current.forEachNode((node) => {
+            if (selectedRows.includes(node.data?.report_no)) {
+                node.setSelected(true);
+            }
+        });
+    }, [rows, selectedRows]);
+
+
     // Handle row selection change
-    const handleRowSelectionChanged = useCallback((event: any) => {
-        if (gridApi.current) {
-            const selectedNodes = gridApi.current.getSelectedRows();
-            const selectedRowIds = selectedNodes.map((node: any) => node.report_no);
-            setSelectedRows([...selectedRowIds]); // Force new array reference for state update
-        }
+    const handleRowSelectionChanged = useCallback(() => {
+        if (!gridApi.current) return;
+
+        const gridSelected = gridApi.current
+            .getSelectedRows()
+            .map((r: any) => r.report_no);
+
+        setSelectedRows((prev) => {
+            const set = new Set(prev);
+            gridSelected.forEach((id) => set.add(id));
+            return Array.from(set);
+        });
     }, []);
+
 
     // Column definitions — with checkbox selection
     const columnDefs = useMemo<ColDef<Product, any>[]>(
@@ -223,7 +241,7 @@ export default function ProductTable() {
 
     useEffect(() => {
         setPage(1);
-        setSelectedRows([]);
+        // setSelectedRows([]);
     }, [pageSize, q]);
 
     const totalPages = totalRows ? Math.max(1, Math.ceil(totalRows / pageSize)) : null;
@@ -566,13 +584,21 @@ export default function ProductTable() {
                     <small>{isFetching || isLoading ? "Loading..." : `Showing ${rows.length} rows`}</small>
                     {selectedRows.length > 0 && (
                         <small style={{ fontWeight: "bold", color: "#0066cc" }}>
-                            {selectedRows.length} selected
+                            {selectedRows.length} selected (across searches)
                         </small>
                     )}
-                    <select value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))}>
+                    <select value={pageSize} onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === "all") {
+                            setPageSize(totalRows || 1000);
+                        } else {
+                            setPageSize(Number(val));
+                        }
+                    }}>
                         <option value={25}>25</option>
                         <option value={50}>50</option>
                         <option value={100}>100</option>
+                        <option value="all">All</option>
                     </select>
                     <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={!canPrev}>
                         Prev

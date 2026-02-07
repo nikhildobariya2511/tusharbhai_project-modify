@@ -496,32 +496,39 @@ def upload_xlsx(
 def list_reports(
     q: Optional[str] = Query(None, description="Search report_no; partial match allowed"),
     page: int = Query(1, ge=1),
-    size: int = Query(10, ge=1, le=100),
+    size: int = Query(10, ge=-1),
     db: Session = Depends(get_db),
 ):
     query = db.query(Report)
+
     if q:
         query = query.filter(Report.report_no.ilike(f"%{q}%"))
 
     total = query.count()
-    items = (
-        query.order_by(Report.created_at.desc())
-        .offset((page - 1) * size)
-        .limit(size)
-        .all()
-    )
 
-    result_items = [
-        {"report_no": r.report_no, "style_number": r.style_number}
-        for r in items
-    ]
+    if size <= 0:
+        # 🔥 ALL RECORDS MODE
+        items = query.order_by(Report.created_at.desc()).all()
+        actual_size = total
+    else:
+        items = (
+            query.order_by(Report.created_at.desc())
+            .offset((page - 1) * size)
+            .limit(size)
+            .all()
+        )
+        actual_size = size
 
     return {
         "page": page,
-        "size": size,
+        "size": actual_size,
         "total": total,
-        "items": result_items,
+        "items": [
+            {"report_no": r.report_no, "style_number": r.style_number}
+            for r in items
+        ],
     }
+
 
 # ==========================================================
 # Update Report
