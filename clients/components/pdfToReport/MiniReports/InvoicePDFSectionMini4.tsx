@@ -186,15 +186,30 @@ export default function InvoicePDFSectionMini4({ report }: { report: any }) {
       <MiniRow label="Polish" value={additional.Polish} style={{ bottom: 6 }} />
       <MiniRow label="Symmetry" value={additional.Symmetry} style={{ bottom: 6 }} />
       <MiniRow label="Fluorescence" value={additional.Fluorescence} style={{ bottom: 6 }} />
-      <MiniRow
+      {/* <MiniRow
         label="Clarity Char:"
         value={additional.ClarityCharacteristics}
         limit={20}
         style={{ bottom: 6 ,fontWeight:"normal"}}
-      />
+      />*/}
+
+      {additional.ClarityCharacteristics && (
+         <View style={{ flexDirection: "row", width: "100%" ,bottom:6}}>
+          {/* empty label space to keep alignment */}
+          <Text style={styles.label}>Clarity Char:</Text>
+          <Text
+            style={[
+              styles.value,
+              { fontWeight: "normal" },
+            ]}
+          >
+            {additional.ClarityCharacteristics}
+          </Text>
+        </View>
+      )}
 
       {/* Inscription */}
-      <View style={{ flexDirection: "row" ,bottom:5,letterSpacing:0.20}}>
+      <View style={{ flexDirection: "row", bottom: 5, letterSpacing: 0.20 }}>
         <Text style={styles.label}>
           Ins:
         </Text>
@@ -267,7 +282,7 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: baseFont,
     fontSize: 6,
-    color: "#333",
+    color: "#222",
   },
 
   value: {

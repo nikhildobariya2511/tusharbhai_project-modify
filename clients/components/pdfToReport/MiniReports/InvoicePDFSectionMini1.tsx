@@ -124,14 +124,34 @@ export default function InvoicePDFSectionMini1({ report }: any) {
               color: "#4B4B4D",
             }}
           >
-            (s)
+            (
+          </Text>
+          <Text
+            style={{
+              fontFamily: "DINPro",
+              fontSize: 7,
+              color: "#4B4B4D",
+            }}
+          >
+            s
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Helvetica-Light",
+              fontSize: 7,
+              color: "#4B4B4D",
+            }}
+          >
+            )
           </Text>
           : {"\u00A0"}
         </Text>
+
         <Text style={commonStyles.fieldLabel}>
           GIA {gia.GIAReportNumber}
         </Text>
       </View>
+
     </View>
   )
 }
