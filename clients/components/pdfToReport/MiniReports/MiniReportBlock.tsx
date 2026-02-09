@@ -9,7 +9,7 @@ import InvoicePDFSectionMini4 from "./InvoicePDFSectionMini4"
 const styles = StyleSheet.create({
   block: {
     position: "absolute",
-    left: 0,
+    left: 8,  //0
     width: 1224,
     height: 396,
   },
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     width: "100%",
     textAlign: "center",
     paddingTop: "36px",
-    left: 39,
+    left: 36,
   },
 
   titleText: {
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 
   section3: {
     position: "absolute",
-    left: 695,
+    left: 692,
     top: 287,
     width: 80,
     overflow: "hidden",
