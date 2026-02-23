@@ -105,7 +105,7 @@ export default function InvoicePDFSection3({ data }: any) {
 
 
     return (
-        <View>
+        <View style={{ left: '2px' }}>
             <View>
                 <Text style={styles.fieldLabel}>{data.ReportDate}</Text>
             </View>

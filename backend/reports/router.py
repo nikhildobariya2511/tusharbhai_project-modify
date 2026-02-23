@@ -424,7 +424,18 @@ def upload_xlsx(
         )
 
         shape = f"({num_diamonds_int}) {row.get('Shape', '')} Brilliant"
-        tot = str(row.get("Diamond Weight", "")).strip()
+        # tot = str(row.get("Diamond Weight", "")).strip()
+        
+        tot_raw = row.get("Diamond Weight", "")
+        if tot_raw not in [None, ""]:
+            try:
+                carat_value = float(tot_raw)
+                tot = f"{carat_value:.2f}"
+            except ValueError:
+                tot = str(tot_raw).strip()  # fallback if invalid value
+        else:
+            tot = ""
+            
         color = row.get("Color Criteria", "")
         clarity = row.get("Clarity Criteria", "")
         report_no = gen_report_no()

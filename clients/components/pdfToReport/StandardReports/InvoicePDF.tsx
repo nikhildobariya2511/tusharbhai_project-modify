@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     width: "100%",
     textAlign: "center",
     paddingTop: "156px",
+    left:"15px"
   },
   titleText: {
     fontFamily: baseFont,

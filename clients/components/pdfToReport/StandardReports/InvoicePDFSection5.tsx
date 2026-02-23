@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         width: 60,
         height: 59,
         marginBottom: '31px',
-        marginLeft: 144,
+        marginLeft: 150,
         // backgroundColor: 'red'
     },
     qrImage: {

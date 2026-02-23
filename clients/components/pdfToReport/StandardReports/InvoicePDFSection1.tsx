@@ -32,7 +32,7 @@ export default function InvoicePDFSection1({ data }: any) {
 
     return (
         <>
-            <View>
+            <View style={{left:"5px"}}>
                 {data.ReportDate && (
                     <Text style={{
                         fontFamily: baseFont,
