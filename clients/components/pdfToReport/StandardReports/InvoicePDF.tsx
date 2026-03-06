@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // InvoicePDF.tsx
-import { Document, Page, View, StyleSheet, Text,Image } from "@react-pdf/renderer"
+import { Document, Page, View, StyleSheet, Text, Image } from "@react-pdf/renderer"
 import InvoicePDFSection1 from "./InvoicePDFSection1"
 import InvoicePDFSection2 from "./InvoicePDFSection2"
 import InvoicePDFSection4 from "./InvoicePDFSection4"
@@ -9,8 +9,10 @@ import InvoicePDFSection5 from "./InvoicePDFSection5"
 import { Font } from "@react-pdf/renderer"
 import InvoicePDFSection3 from "./InvoicePDFSection3"
 import { baseFont } from "../PDFStyles"
+
 const dinProRegular = "/fonts/DINPro-Light_13935.ttf"
 const dinProBold = "/fonts/DINPro-Medium_13936.ttf"
+
 Font.register({
   family: "DINPro",
   fonts: [
@@ -32,7 +34,7 @@ Font.register({
 
 Font.register({
   family: "Helvetica-Light",
-  src: "/fonts/Helvetica-Light.ttf", // path to your light TTF file
+  src: "/fonts/Helvetica-Light.ttf",
   fontWeight: "light",
 })
 
@@ -54,15 +56,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     left: 0,
-    width: 1224,
-    height: 792,
+    width: "100%",
+    height: "100%",
     zIndex: -1,
   },
   titleContainer: {
     width: "100%",
     textAlign: "center",
     paddingTop: "156px",
-    left:"15px"
+    left: "15px",
   },
   titleText: {
     fontFamily: baseFont,
@@ -77,44 +79,55 @@ const styles = StyleSheet.create({
   },
 })
 
-export default function InvoicePDF({ data, size = "17x11" }: { data: any; size?: "17x11" | "14x8.5" }) {
-  const dimensions = size === "14x8.5" ? { width: 1008, height: 612 } : { width: 1224, height: 792 }
+export default function InvoicePDF({
+  data,
+  size = "17x11",
+}: {
+  data: any
+  size?: "17x11" | "14x8.5"
+}) {
+  const isSmall = size === "14x8.5"
 
-  const titleContainerStyle =
-    size === "14x8.5" ? { ...styles.titleContainer, paddingTop: "42px", marginBottom: "4px" } : styles.titleContainer
+  const dimensions = isSmall
+    ? { width: 1008, height: 612 }
+    : { width: 1224, height: 792 }
 
-  const contentRowStyle =
-    size === "14x8.5" ? { ...styles.contentRow, marginTop: "0px", marginLeft: "25px", gap: 8 } : styles.contentRow
+  // 🔥 Dynamic background image based on size
+  const backgroundImageSrc = isSmall
+    ? "/basicstrucher-small.jpg"
+    : "/basiSctucutre.jpg"
 
-  const section1Style =
-    size === "14x8.5"
-      ? { width: "215px", marginTop: "38px", marginLeft: "-5px" }
-      : { width: "215px", marginTop: "42px", marginLeft: "112px" }
+  const titleContainerStyle = isSmall
+    ? { ...styles.titleContainer, paddingTop: "42px", marginBottom: "4px",marginLeft: "7px" }  //14 *8.5
+    : styles.titleContainer
 
-  const section4Style =
-    size === "14x8.5"
-      ? { width: "236px", height: "100%", marginLeft: "36px", marginTop: "23px", position: "relative" as const }
-      : { width: "236px", height: "100%", marginLeft: "36px", marginTop: "28px", position: "relative" as const }
+  const contentRowStyle = isSmall
+    ? { ...styles.contentRow, marginTop: "0px", marginLeft: "25px", gap: 8 }  //14 *8.5
+    : styles.contentRow
 
-  const section5Style =
-    size === "14x8.5"
-      ? { width: "215px", marginTop: "23px", marginLeft: "16px" }
-      : { width: "215px", marginTop: "28px", marginLeft: "14px" }
+  const section1Style = isSmall
+    ? { width: "215px", marginTop: "38px", marginLeft: "-5px" }  //14 *8.5
+    : { width: "215px", marginTop: "42px", marginLeft: "112px" }
 
-  const section2Style =
-    size === "14x8.5"
-      ? { width: "183px", marginLeft: "37px", marginTop: "3px", position: "relative" as const, height: "100%" }
-      : { width: "183px", marginLeft: "35px", marginTop: "7px", position: "relative" as const, height: "100%" }
+  const section4Style = isSmall
+    ? { width: "236px", height: "100%", marginLeft: "36px", marginTop: "23px", position: "relative" as const }   //14 *8.5
+    : { width: "236px", height: "100%", marginLeft: "36px", marginTop: "28px", position: "relative" as const }
 
-  const diaTextPosition =
-    size === "14x8.5"
-      ? { position: "absolute" as const, width: 30, height: 20, top: 485.4, left: 229, transform: "rotate(-90deg)" }
-      : { position: "absolute" as const, width: 30, height: 20, top: 485.4, left: 231, transform: "rotate(-90deg)" }
+  const section5Style = isSmall
+    ? { width: "215px", marginTop: "21px", marginLeft: "18px" }   //14 *8.5
+    : { width: "215px", marginTop: "28px", marginLeft: "14px" }
 
-  const section3Position =
-    size === "14x8.5"
-      ? { width: 68, height: 170, position: "absolute" as const, left: "50.5px", top: 416, transform: "rotate(-90deg)" }
-      : { width: 68, height: 170, position: "absolute" as const, left: "49.5px", top: 416, transform: "rotate(-90deg)" }
+  const section2Style = isSmall
+    ? { width: "183px", marginLeft: "37px", marginTop: "3px", position: "relative" as const, height: "100%" }   //14 *8.5
+    : { width: "183px", marginLeft: "35px", marginTop: "7px", position: "relative" as const, height: "100%" }
+
+  const diaTextPosition = isSmall
+    ? { position: "absolute" as const, width: 30, height: 20, top: 485.4, left: 229, transform: "rotate(-90deg)" }   //14 *8.5
+    : { position: "absolute" as const, width: 30, height: 20, top: 485.4, left: 231, transform: "rotate(-90deg)" }
+
+  const section3Position = isSmall
+    ? { width: 68, height: 170, position: "absolute" as const, left: "52.5px", top: 416, transform: "rotate(-90deg)" }   //14 *8.5
+    : { width: 68, height: 170, position: "absolute" as const, left: "49.5px", top: 416, transform: "rotate(-90deg)" }
 
   return (
     <Document>
@@ -122,21 +135,23 @@ export default function InvoicePDF({ data, size = "17x11" }: { data: any; size?:
         size={[dimensions.width, dimensions.height]}
         style={{ ...styles.page, width: dimensions.width, height: dimensions.height }}
       >
-        {/* <Image src={'/basiSctucutre.jpg'} style={styles.backgroundImage} /> */}
-        {/* Title section */}
+        {/* ✅ Dynamic background image */}
+        {/* <Image src={backgroundImageSrc} style={styles.backgroundImage} /> */}
+
         <View style={titleContainerStyle}>
-          <Text style={styles.titleText}>{data?.GIANATURALDIAMONDGRADINGREPORT?.GIAReportNumber}</Text>
+          <Text style={styles.titleText}>
+            {data?.GIANATURALDIAMONDGRADINGREPORT?.GIAReportNumber}
+          </Text>
         </View>
-        {/* Main content row */}
+
         <View style={contentRowStyle}>
           <View style={section1Style}>
             <InvoicePDFSection1 data={data} />
           </View>
+
           <View style={section4Style}>
             <View>
-              <View>
-                <InvoicePDFSection4 data={data} />
-              </View>
+              <InvoicePDFSection4 data={data} />
               <View style={diaTextPosition}>
                 <Text
                   style={{
@@ -151,14 +166,13 @@ export default function InvoicePDF({ data, size = "17x11" }: { data: any; size?:
               </View>
             </View>
           </View>
+
           <View style={section5Style}>
             <InvoicePDFSection5 data={data} />
           </View>
-          <View style={section2Style}>
-            <View>
-              <InvoicePDFSection2 data={data} />
-            </View>
 
+          <View style={section2Style}>
+            <InvoicePDFSection2 data={data} />
             <View style={section3Position}>
               <InvoicePDFSection3 data={data} />
             </View>

@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     },
     barcodeRow: {
         flexDirection: "row",
-        marginLeft: 18,
+        marginLeft: 20,
         // alignItems: "center",
         // justifyContent: "center",
         gap: 4,
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     },
     barcodeText: {
         marginLeft: 1,
-        marginTop: '0.70px',
+        marginTop: '1.40px',
         fontSize: "8.80",
         fontFamily: "OCR",
         color: "#000",

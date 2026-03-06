@@ -351,14 +351,11 @@ export default function InvoicePDFSection2({ data }: any) {
             </View> */}
             <View
                 style={{
-                    position: 'absolute',
-                    // bottom: 0, // or whatever exact offset you need
-                    top: '393px',
+                    position: "absolute",
+                    top: "393px",
                     left: 15,
-                    right: 0,
                     flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    alignItems: "center", // 🔥 vertical align fix
                 }}
             >
                 <Image
@@ -369,14 +366,13 @@ export default function InvoicePDFSection2({ data }: any) {
                         objectFit: "contain",
                     }}
                 />
+
                 <Text
                     style={{
-                        fontFamily: 'OCR',
-                        fontWeight: "normal",
+                        fontFamily: "OCR",
                         fontSize: 9,
                         color: "#333",
-                        marginBottom: '4.9px',
-                        marginLeft: '6.6px',
+                        marginLeft: 6, // 🔥 spacing between image & text
                     }}
                 >
                     {data.BARCODE10.number}
