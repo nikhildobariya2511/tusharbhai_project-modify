@@ -193,20 +193,33 @@ export default function InvoicePDFSectionMini4({ report }: { report: any }) {
         style={{ bottom: 6 ,fontWeight:"normal"}}
       />*/}
 
-      {additional.ClarityCharacteristics && (
-         <View style={{ flexDirection: "row", width: "100%" ,bottom:6}}>
-          {/* empty label space to keep alignment */}
-          <Text style={styles.label}>Clarity Char:</Text>
-          <Text
-            style={[
-              styles.value,
-              { fontWeight: "normal" },
-            ]}
-          >
-            {additional.ClarityCharacteristics}
-          </Text>
-        </View>
-      )}
+      {additional.ClarityCharacteristics && (() => {
+        const { firstLine, remaining } = splitByWords(
+          additional.ClarityCharacteristics,
+          24
+        )
+
+        return (
+          <>
+            <View style={{ flexDirection: "row", width: "100%", bottom: 6 }}>
+              <Text style={styles.label}>Clarity Char:</Text>
+              <Text style={[styles.value, { fontWeight: "normal" ,left:"1px"}]}>
+                {firstLine}
+              </Text>
+            </View>
+
+            {remaining && (
+              <View style={{ flexDirection: "row", width: "100%", bottom: 6 }}>
+                {/* <Text style={styles.label} />
+                <View style={styles.separatorInvisible} /> */}
+                <Text style={[styles.value, { fontWeight: "normal" }]}>
+                  {remaining}
+                </Text>
+              </View>
+            )}
+          </>
+        )
+      })()}
 
       {/* Inscription */}
       <View style={{ flexDirection: "row", bottom: 5, letterSpacing: 0.20 }}>
